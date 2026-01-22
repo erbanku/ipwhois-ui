@@ -1,19 +1,26 @@
-# ipwhois-ui
+# IP WHOIS Lookup
 
-A clean, modern web interface for visualizing IP and hostname information using the [ipwhois.io API](https://ipwhois.io).
+> A clean, modern web interface for IP and hostname geolocation powered by [IPWHOIS.IO](https://ipwhois.io)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![No Build Tools](https://img.shields.io/badge/build-none-green.svg)](/)
+[![Vanilla JS](https://img.shields.io/badge/javascript-vanilla-yellow.svg)](/)
+
+**[Live Demo →](https://ipwhois.erbanku.com/)**
 
 ## Features
 
-- 🔍 **IP Lookup**: Search for any IP address or hostname
-- 🌍 **Auto-Detection**: Automatically detects and displays your IP on page load
-- 📍 **Map Visualization**: Shows location on OpenStreetMap
-- 📊 **Detailed Information**: ISP, organization, location, timezone, currency, and more
-- 🔗 **Direct Links**: Support for URL parameters (e.g., `?ip=8.8.8.8`)
-- 📱 **Responsive Design**: Works on desktop, tablet, and mobile devices
-- 🎨 **Modern UI**: Clean, Apple-inspired design with smooth animations
-- 🌙 **Dark Mode**: Automatic dark mode support based on system preferences
-- 📋 **Copy JSON**: Easy copy-to-clipboard for raw API responses
-- 🔑 **Optional API Key**: Support for ipwhois.io API keys for higher rate limits
+- **IP & Hostname Lookup** - Search any IPv4 address or domain name
+- **Auto-Detection** - Instantly displays your current IP on load
+- **Interactive Map** - OpenStreetMap visualization with location markers
+- **Detailed Insights** - ISP, organization, location, timezone, currency, ASN
+- **URL Parameters** - Direct link support (`?ip=8.8.8.8` or `?host=example.com`)
+- **Responsive Design** - Optimized for desktop, tablet, and mobile
+- **Modern UI** - Apple-inspired design with smooth animations
+- **Dark Mode** - Automatic theme based on system preferences
+- **Copy to Clipboard** - Export raw JSON responses
+- **No Build Required** - Pure vanilla JavaScript, runs directly in browser
+- **API Key Support** - Optional configuration for higher rate limits
 
 ## Project Structure
 
@@ -34,168 +41,191 @@ ipwhois-ui/
 
 ## Quick Start
 
-### Option 1: Open Directly
+**No installation needed** - Just open [index.html](index.html) in any modern browser.
 
-Simply open `index.html` in your web browser. No build process or server required!
+### Local Development Server
 
-### Option 2: Run with Local Server
-
-For better development experience, use a local server:
+For better development experience with hot reload:
 
 ```bash
-# Using Python 3
+# Python 3
 python -m http.server 8000
 
-# Using Python 2
-python -m SimpleHTTPServer 8000
-
-# Using Node.js (npx)
+# Node.js
 npx serve
 
-# Using PHP
+# PHP
 php -S localhost:8000
 ```
 
-Then open `http://localhost:8000` in your browser.
+Open `http://localhost:8000` in your browser.
+
+### Using PowerShell Setup Script
+
+```powershell
+# Run the setup script to create config files from templates
+./setup.ps1
+```
+
+This creates `src/config.js` and `.env` from their example files.
 
 ## Usage
 
-### Basic Usage
+### Basic Lookup
 
-1. Open the website
-2. Your IP information will be automatically displayed
-3. To look up a different IP or hostname, enter it in the search box and click "Lookup"
+1. Open the application - your IP is automatically displayed
+2. Enter any IP address or hostname in the search box
+3. Click **Lookup** or press Enter
 
-### URL Parameters
+### Direct URL Access
 
-You can directly link to specific IPs or hostnames:
+Link directly to specific lookups using URL parameters:
 
-- `?ip=8.8.8.8` - Look up a specific IP
-- `?host=google.com` - Look up a hostname
-- `?q=1.1.1.1` - Alternative query parameter
+| Parameter | Example            | Description             |
+| --------- | ------------------ | ----------------------- |
+| `?ip=`    | `?ip=8.8.8.8`      | Look up IPv4 address    |
+| `?host=`  | `?host=google.com` | Look up hostname        |
+| `?q=`     | `?q=1.1.1.1`       | Alternative query param |
 
-Examples:
+**Live Examples:**
 
-- `https://yourdomain.com/?ip=8.8.8.8`
-- `https://yourdomain.com/?host=github.com`
+- `https://yourdomain.com/?ip=8.8.8.8` - Google DNS
+- `https://yourdomain.com/?host=github.com` - GitHub servers
 
-### API Key Configuration (Optional)
+## Configuration
 
-For higher rate limits, you can configure your ipwhois.io API key in multiple ways:
+### API Key Setup (Optional)
 
-#### Option 1: Using config.js (Recommended for Development)
+The app works without an API key (10k requests/month free tier). For higher limits:
 
-1. Copy the example config file:
+**Method 1: Local Config File** (Recommended for Development)
 
-    ```bash
-    cp src/config.example.js src/config.js
-    ```
+```bash
+# Copy template
+cp src/config.example.js src/config.js
 
-2. Edit `src/config.js` and add your API key:
+# Edit src/config.js
+window.IPWHOIS_CONFIG = {
+    apiKey: "your-api-key-here",
+    apiEndpoint: "https://ipwhois.app/json/"
+};
+```
 
-    ```javascript
-    window.IPWHOIS_CONFIG = {
-        apiKey: "your-api-key-here",
-        apiEndpoint: "https://ipwhois.app/json/",
-    };
-    ```
+**Method 2: Environment Variables** (Production)
 
-#### Option 2: Using Environment Variables (Production)
+```bash
+# Create .env file
+cp .env.example .env
 
-For production deployments, use environment variables:
+# Add your key
+IPWHOIS_API_KEY=your-api-key-here
+IPWHOIS_API_ENDPOINT=https://ipwhois.app/json/
+```
 
-1. Copy the example environment file:
+**Configuration Priority:**
 
-    ```bash
-    cp .env.example .env
-    ```
+1. `window.IPWHOIS_CONFIG` (highest)
+2. `process.env.*` variables
+3. Default free tier
 
-2. Edit `.env` and add your configuration:
+Get your API key: [ipwhois.io/pricing](https://ipwhois.io/pricing)
 
-    ```bash
-    IPWHOIS_API_KEY=your-api-key-here
-    IPWHOIS_API_ENDPOINT=https://ipwhois.app/json/
-    ```
-
-3. The application will automatically read from:
-    - `window.IPWHOIS_CONFIG` (highest priority)
-    - `process.env.IPWHOIS_API_KEY` (for Node.js environments)
-    - Default values (free tier)
-
-**Note**: Get your API key from [ipwhois.io pricing page](https://ipwhois.io/pricing)
-
-**Security**: Both `src/config.js` and `.env` files are ignored by git to keep your API key private.
+> Both `src/config.js` and `.env` are gitignored for security.
 
 ## Technology Stack
 
-- **HTML5**: Semantic markup with clean structure
-- **CSS3**: Modern Apple-inspired styling with CSS Grid, Flexbox, and dark mode
-- **Vanilla JavaScript**: No frameworks - pure ES6+ JavaScript
-- **Leaflet.js**: Interactive maps powered by OpenStreetMap
-- **ipwhois.io API**: Comprehensive IP geolocation data
+| Technology             | Purpose                         |
+| ---------------------- | ------------------------------- |
+| **HTML5**              | Semantic markup                 |
+| **CSS3**               | Grid/Flexbox layouts, dark mode |
+| **Vanilla JavaScript** | ES6+ with no frameworks         |
+| **Leaflet.js**         | Interactive maps                |
+| **OpenStreetMap**      | Map tiles                       |
+| **IPWHOIS.IO API**     | IP geolocation data             |
 
-## API Information
+**Why No Frameworks?**
 
-This project uses the [ipwhois.io API](https://ipwhois.io/documentation).
-
-- **Free tier**: 10,000 requests per month
-- **Endpoint**: `https://ipwhois.app/json/{ip}`
-- **Documentation**: https://ipwhois.io/documentation
+- Zero dependencies
+- Fast load times
+- No build process
+- Deploy anywhere
+- Easy to understand
 
 ## Deployment
 
-### GitHub Pages
+### Static Hosting Platforms
 
-1. Push your code to GitHub
-2. Go to Settings > Pages
-3. Select your branch and root directory
-4. Your site will be live at `https://yourusername.github.io/ipwhois-ui/`
+| Platform             | Steps                                     |
+| -------------------- | ----------------------------------------- |
+| **GitHub Pages**     | Settings → Pages → Select branch → Deploy |
+| **Vercel**           | Import repo → Deploy (zero config)        |
+| **Netlify**          | Connect repo → Build: none → Publish: `/` |
+| **Traditional Host** | Upload via FTP/SFTP                       |
 
-### Netlify
+### Environment Variables (Production)
 
-1. Connect your GitHub repository
-2. Set build command: (none)
-3. Set publish directory: `/`
-4. Deploy!
+For Netlify/Vercel with API keys:
 
-For API key configuration with environment variables:
+**Netlify:**
 
-- Add `IPWHOIS_API_KEY` as an environment variable in Netlify
-- Create a `netlify.toml` file to inject it into the build
+```toml
+# netlify.toml
+[build.environment]
+  IPWHOIS_API_KEY = "your-key"
+```
 
-### Vercel
+**Vercel:**
+Add environment variable in dashboard: `IPWHOIS_API_KEY`
 
-1. Import your GitHub repository
-2. No build configuration needed
-3. Deploy!
+## API Information
 
-### Traditional Web Hosting
+**Provider:** [IPWHOIS.IO](https://ipwhois.io/documentation)
 
-Simply upload all files to your web server via FTP or file manager.
+| Detail            | Value                                                        |
+| ----------------- | ------------------------------------------------------------ |
+| **Free Tier**     | 10,000 requests/month                                        |
+| **Endpoint**      | `https://ipwhois.app/json/{ip}`                              |
+| **Documentation** | [ipwhois.io/documentation](https://ipwhois.io/documentation) |
+| **Pricing**       | [ipwhois.io/pricing](https://ipwhois.io/pricing)             |
 
 ## Browser Support
 
-- Chrome/Edge (last 2 versions)
-- Firefox (last 2 versions)
-- Safari (last 2 versions)
-- Mobile browsers (iOS Safari, Chrome Android)
-
-## License
-
-MIT License - See [LICENSE](LICENSE) file for details
-
-## Credits
-
-- IP data provided by [ipwhois.io](https://ipwhois.io)
-- Maps powered by [OpenStreetMap](https://www.openstreetmap.org)
-- Map library: [Leaflet](https://leafletjs.com)
+| Browser     | Version                    |
+| ----------- | -------------------------- |
+| Chrome/Edge | Last 2 versions            |
+| Firefox     | Last 2 versions            |
+| Safari      | Last 2 versions            |
+| Mobile      | iOS Safari, Chrome Android |
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing`)
+5. Open a Pull Request
+
+## License
+
+[MIT License](LICENSE) - Free to use for personal and commercial projects.
+
+## Credits
+
+- **IP Data** - [IPWHOIS.IO](https://ipwhois.io)
+- **Maps** - [OpenStreetMap](https://www.openstreetmap.org) contributors
+- **Map Library** - [Leaflet](https://leafletjs.com)
+- **Developer** - [erbanku](https://github.com/erbanku)
 
 ## Support
 
-For API-related issues, please contact [ipwhois.io support](https://ipwhois.io/contact).
+- API Issues: [ipwhois.io/contact](https://ipwhois.io/contact)
+- App Issues: [GitHub Issues](../../issues)
+
+---
+
+<p align="center">Made with ❤️ by <a href="https://github.com/erbanku">erbanku</a></p>
+<p align="center">© 2026</p>
 
 For website issues, please open an issue on GitHub.
