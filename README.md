@@ -8,6 +8,8 @@
 
 **[Live Demo →](https://ipwhois.erbanku.com/)**
 
+<img width="2238" height="1555" alt="image" src="https://github.com/user-attachments/assets/5e8b5072-731e-4fff-89c3-996dcef3c160" />
+
 ## Features
 
 - **IP & Hostname Lookup** - Search any IPv4 address or domain name
