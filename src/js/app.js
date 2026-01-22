@@ -263,11 +263,13 @@ function copyJSON() {
             // Change button text temporarily
             const originalText = copyBtn.textContent;
             copyBtn.textContent = "Copied!";
-            copyBtn.style.background = "#059669";
+            copyBtn.style.background = "var(--success-color)";
+            copyBtn.style.transform = "scale(1.05)";
 
             setTimeout(() => {
                 copyBtn.textContent = originalText;
                 copyBtn.style.background = "";
+                copyBtn.style.transform = "";
             }, 2000);
         })
         .catch((err) => {
