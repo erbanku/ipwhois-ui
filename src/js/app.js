@@ -103,12 +103,12 @@ async function lookupIP(ip) {
 function displayResults(data) {
     // Update info cards
     document.getElementById("ipAddress").textContent = data.ip || "-";
-    document.getElementById("location").textContent = formatLocation(data);
+    document.getElementById("location").innerHTML = formatLocation(data);
     document.getElementById("isp").textContent = data.isp || "-";
     document.getElementById("org").textContent = data.org || "-";
 
     // Update detailed information
-    document.getElementById("country").textContent = formatCountry(data);
+    document.getElementById("country").innerHTML = formatCountry(data);
     document.getElementById("region").textContent = data.region || "-";
     document.getElementById("city").textContent = data.city || "-";
     document.getElementById("postal").textContent = data.postal || "-";
@@ -145,17 +145,21 @@ function formatLocation(data) {
     if (data.region && data.region !== data.city) parts.push(data.region);
     // Add country with flag
     if (data.country) {
-        const countryText = data.country_flag
-            ? `${data.country_flag} ${data.country}`
-            : data.country;
-        parts.push(countryText);
+        if (data.country_flag) {
+            const flagUrl = `https://cdn.ipwhois.io/flags/${data.country_code.toLowerCase()}.svg`;
+            const countryText = `<img src="${flagUrl}" alt="${data.country}" style="width: 20px; height: 15px; vertical-align: middle; margin-right: 4px;">${data.country}`;
+            parts.push(countryText);
+        } else {
+            parts.push(data.country);
+        }
     }
     return parts.length > 0 ? parts.join(", ") : "-";
 }
 
 function formatCountry(data) {
-    if (data.country && data.country_flag) {
-        return `${data.country_flag} ${data.country}`;
+    if (data.country && data.country_code) {
+        const flagUrl = `https://cdn.ipwhois.io/flags/${data.country_code.toLowerCase()}.svg`;
+        return `<img src="${flagUrl}" alt="${data.country}" style="width: 20px; height: 15px; vertical-align: middle; margin-right: 4px;">${data.country}`;
     }
     return data.country || "-";
 }
@@ -177,9 +181,17 @@ function formatCurrency(data) {
 function updateMap(lat, lng, data) {
     const mapDiv = document.getElementById("map");
 
+    // Determine appropriate zoom level based on location specificity
+    let zoomLevel = 6; // Default: country level
+    if (data.city && data.city !== "-") {
+        zoomLevel = 12; // City level
+    } else if (data.region && data.region !== "-") {
+        zoomLevel = 8; // Region level
+    }
+
     // Initialize map if not already done
     if (!map) {
-        map = L.map("map").setView([lat, lng], 10);
+        map = L.map("map").setView([lat, lng], zoomLevel);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution:
@@ -188,7 +200,7 @@ function updateMap(lat, lng, data) {
         }).addTo(map);
     } else {
         // Update view to new coordinates
-        map.setView([lat, lng], 10);
+        map.setView([lat, lng], zoomLevel);
     }
 
     // Remove old marker if exists
@@ -250,7 +262,7 @@ function copyJSON() {
         .then(() => {
             // Change button text temporarily
             const originalText = copyBtn.textContent;
-            copyBtn.textContent = "✓ Copied!";
+            copyBtn.textContent = "Copied!";
             copyBtn.style.background = "#059669";
 
             setTimeout(() => {
