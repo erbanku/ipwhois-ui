@@ -45,6 +45,10 @@ function initializeApp() {
         ipInput.value = urlIp;
         lookupIP(urlIp);
     } else {
+        // Clear URL on homepage/refresh
+        if (window.location.search) {
+            window.history.replaceState({}, "", window.location.pathname);
+        }
         // Auto-detect user's IP
         lookupIP("");
     }

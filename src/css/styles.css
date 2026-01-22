@@ -511,6 +511,19 @@ footer {
     border-top: 1px solid var(--border-color);
 }
 
+footer p {
+    margin-bottom: 8px;
+}
+
+footer p:last-child {
+    margin-bottom: 0;
+}
+
+.footer-copyright {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+}
+
 footer a {
     color: var(--primary-color);
     text-decoration: none;
