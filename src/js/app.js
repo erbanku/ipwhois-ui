@@ -45,17 +45,17 @@ function initializeApp() {
         // Check if this is a refresh (URL was already processed)
         const currentUrl = window.location.href;
         const lastUrl = sessionStorage.getItem("lastProcessedUrl");
-        
+
         if (lastUrl === currentUrl) {
             // This is a refresh, redirect to homepage
             sessionStorage.removeItem("lastProcessedUrl");
             window.location.href = window.location.pathname;
             return;
         }
-        
+
         // Store URL for refresh detection
         sessionStorage.setItem("lastProcessedUrl", currentUrl);
-        
+
         ipInput.value = urlIp;
         lookupIP(urlIp);
     } else {
