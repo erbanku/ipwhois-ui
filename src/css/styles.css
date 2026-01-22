@@ -245,12 +245,11 @@ header h1 {
 }
 
 .card-value {
-    font-size: 2.0625rem;
-    font-weight: 600;
-    font-family: "JetBrains Mono", "Roboto Mono", "Courier New", monospace;
+    font-size: 1.03125rem;
+    font-weight: 700;
     color: var(--text-primary);
     word-break: break-word;
-    line-height: 1.3;
+    line-height: 1.4;
     margin-top: 4px;
 }
 
@@ -341,10 +340,9 @@ header h1 {
     text-align: right;
     word-break: break-word;
     max-width: 65%;
-    font-size: 2.625rem;
-    font-weight: 600;
-    font-family: "JetBrains Mono", "Roboto Mono", "Courier New", monospace;
-    line-height: 1.2;
+    font-size: 1.3125rem;
+    font-weight: 700;
+    line-height: 1.3;
 }
 
 .raw-data-section {
@@ -556,13 +554,13 @@ footer a:hover {
     }
 
     .detail-value {
-        font-size: 1.75rem;
+        font-size: 0.875rem;
         text-align: left;
         max-width: 100%;
     }
 
     .card-value {
-        font-size: 1.5rem;
+        font-size: 0.75rem;
     }
 
     .section-header {
