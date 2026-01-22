@@ -42,6 +42,20 @@ function initializeApp() {
         urlParams.get("ip") || urlParams.get("host") || urlParams.get("q");
 
     if (urlIp) {
+        // Check if this is a refresh (URL was already processed)
+        const currentUrl = window.location.href;
+        const lastUrl = sessionStorage.getItem("lastProcessedUrl");
+        
+        if (lastUrl === currentUrl) {
+            // This is a refresh, redirect to homepage
+            sessionStorage.removeItem("lastProcessedUrl");
+            window.location.href = window.location.pathname;
+            return;
+        }
+        
+        // Store URL for refresh detection
+        sessionStorage.setItem("lastProcessedUrl", currentUrl);
+        
         ipInput.value = urlIp;
         lookupIP(urlIp);
     } else {
@@ -49,6 +63,8 @@ function initializeApp() {
         if (window.location.search) {
             window.history.replaceState({}, "", window.location.pathname);
         }
+        // Clear session storage
+        sessionStorage.removeItem("lastProcessedUrl");
         // Auto-detect user's IP
         lookupIP("");
     }
