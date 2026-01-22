@@ -1,6 +1,10 @@
 # .gitignore
 # Configuration with API keys
+src/config.js
 config.js
+
+# Environment variables
+.env
 
 # OS files
 .DS_Store

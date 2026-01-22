@@ -10,9 +10,27 @@ A clean, modern web interface for visualizing IP and hostname information using 
 - 📊 **Detailed Information**: ISP, organization, location, timezone, currency, and more
 - 🔗 **Direct Links**: Support for URL parameters (e.g., `?ip=8.8.8.8`)
 - 📱 **Responsive Design**: Works on desktop, tablet, and mobile devices
-- 🎨 **Modern UI**: Clean, professional interface with smooth animations
+- 🎨 **Modern UI**: Clean, Apple-inspired design with smooth animations
+- 🌙 **Dark Mode**: Automatic dark mode support based on system preferences
 - 📋 **Copy JSON**: Easy copy-to-clipboard for raw API responses
 - 🔑 **Optional API Key**: Support for ipwhois.io API keys for higher rate limits
+
+## Project Structure
+
+```
+ipwhois-ui/
+├── src/
+│   ├── css/
+│   │   └── styles.css       # All styles with dark mode support
+│   ├── js/
+│   │   └── app.js          # Main application logic
+│   └── config.example.js   # Configuration template
+├── index.html              # Main HTML file
+├── .env.example            # Environment variables template
+├── .gitignore              # Git ignore rules
+├── LICENSE                 # MIT License
+└── README.md               # This file
+```
 
 ## Quick Start
 
@@ -70,10 +88,10 @@ For higher rate limits, you can configure your ipwhois.io API key in multiple wa
 1. Copy the example config file:
 
     ```bash
-    cp config.example.js config.js
+    cp src/config.example.js src/config.js
     ```
 
-2. Edit `config.js` and add your API key:
+2. Edit `src/config.js` and add your API key:
 
     ```javascript
     window.IPWHOIS_CONFIG = {
@@ -106,15 +124,15 @@ For production deployments, use environment variables:
 
 **Note**: Get your API key from [ipwhois.io pricing page](https://ipwhois.io/pricing)
 
-**Security**: Both `config.js` and `.env` files are ignored by git to keep your API key private.
+**Security**: Both `src/config.js` and `.env` files are ignored by git to keep your API key private.
 
 ## Technology Stack
 
-- **HTML5**: Semantic markup
-- **CSS3**: Modern styling with CSS Grid and Flexbox
-- **Vanilla JavaScript**: No frameworks required
+- **HTML5**: Semantic markup with clean structure
+- **CSS3**: Modern Apple-inspired styling with CSS Grid, Flexbox, and dark mode
+- **Vanilla JavaScript**: No frameworks - pure ES6+ JavaScript
 - **Leaflet.js**: Interactive maps powered by OpenStreetMap
-- **ipwhois.io API**: IP geolocation data
+- **ipwhois.io API**: Comprehensive IP geolocation data
 
 ## API Information
 

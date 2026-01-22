@@ -141,8 +141,15 @@ function displayResults(data) {
 function formatLocation(data) {
     const parts = [];
     if (data.city) parts.push(data.city);
-    if (data.region) parts.push(data.region);
-    if (data.country) parts.push(data.country);
+    // Only add region if it's different from city
+    if (data.region && data.region !== data.city) parts.push(data.region);
+    // Add country with flag
+    if (data.country) {
+        const countryText = data.country_flag
+            ? `${data.country_flag} ${data.country}`
+            : data.country;
+        parts.push(countryText);
+    }
     return parts.length > 0 ? parts.join(", ") : "-";
 }
 
