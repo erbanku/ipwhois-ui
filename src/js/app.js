@@ -103,12 +103,28 @@ async function lookupIP(ip) {
 function displayResults(data) {
     // Update info cards
     document.getElementById("ipAddress").textContent = data.ip || "-";
-    document.getElementById("location").innerHTML = formatLocation(data);
+    document.getElementById("location").textContent = formatLocation(data);
     document.getElementById("isp").textContent = data.isp || "-";
     document.getElementById("org").textContent = data.org || "-";
 
+    // Update flag separately for location card
+    const locationCard = document.querySelector(".info-card:first-child");
+    let flagImg = locationCard.querySelector(".card-flag");
+    if (data.country_code) {
+        const flagUrl = `https://cdn.ipwhois.io/flags/${data.country_code.toLowerCase()}.svg`;
+        if (!flagImg) {
+            flagImg = document.createElement("img");
+            flagImg.className = "card-flag";
+            locationCard.querySelector(".card-header").appendChild(flagImg);
+        }
+        flagImg.src = flagUrl;
+        flagImg.alt = data.country || "";
+    } else if (flagImg) {
+        flagImg.remove();
+    }
+
     // Update detailed information
-    document.getElementById("country").innerHTML = formatCountry(data);
+    document.getElementById("country").textContent = formatCountry(data);
     document.getElementById("region").textContent = data.region || "-";
     document.getElementById("city").textContent = data.city || "-";
     document.getElementById("postal").textContent = data.postal || "-";
@@ -143,24 +159,15 @@ function formatLocation(data) {
     if (data.city) parts.push(data.city);
     // Only add region if it's different from city
     if (data.region && data.region !== data.city) parts.push(data.region);
-    // Add country with flag
+    // Add country without flag
     if (data.country) {
-        if (data.country_flag) {
-            const flagUrl = `https://cdn.ipwhois.io/flags/${data.country_code.toLowerCase()}.svg`;
-            const countryText = `<img src="${flagUrl}" alt="${data.country}" style="width: 20px; height: 15px; vertical-align: middle; margin-right: 4px;">${data.country}`;
-            parts.push(countryText);
-        } else {
-            parts.push(data.country);
-        }
+        parts.push(data.country);
     }
     return parts.length > 0 ? parts.join(", ") : "-";
 }
 
 function formatCountry(data) {
-    if (data.country && data.country_code) {
-        const flagUrl = `https://cdn.ipwhois.io/flags/${data.country_code.toLowerCase()}.svg`;
-        return `<img src="${flagUrl}" alt="${data.country}" style="width: 20px; height: 15px; vertical-align: middle; margin-right: 4px;">${data.country}`;
-    }
+    // Return country name only, flag will be displayed separately
     return data.country || "-";
 }
 
@@ -210,16 +217,21 @@ function updateMap(lat, lng, data) {
 
     // Add new marker
     const popupContent = `
-        <div style="text-align: center;">
-            <strong>${data.ip}</strong><br>
-            ${data.city ? data.city + ", " : ""}${data.country || ""}<br>
-            <small>Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}</small>
+        <div style="min-width: 200px; padding: 4px;">
+            <div style="font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">${data.ip}</div>
+            <div style="font-size: 0.9375rem; margin-bottom: 4px; color: var(--text-primary);">${data.city ? data.city + ", " : ""}${data.country || ""}</div>
+            <div style="font-size: 0.8125rem; color: var(--text-secondary);">Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}</div>
         </div>
     `;
 
     marker = L.marker([lat, lng])
         .addTo(map)
-        .bindPopup(popupContent)
+        .bindPopup(popupContent, {
+            closeButton: false,
+            minWidth: 200,
+            maxWidth: 300,
+            className: "custom-popup",
+        })
         .openPopup();
 }
 
