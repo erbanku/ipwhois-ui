@@ -147,9 +147,10 @@ function displayResults(data) {
     document.getElementById("country").textContent = formatCountry(data);
     document.getElementById("region").textContent = data.region || "-";
     document.getElementById("city").textContent = data.city || "-";
-    document.getElementById("postal").textContent = data.postal || "-";
     document.getElementById("timezone").textContent = formatTimezone(data);
     document.getElementById("currency").textContent = formatCurrency(data);
+    document.getElementById("currencyRates").textContent =
+        formatCurrencyRates(data);
     document.getElementById("continent").textContent = data.continent || "-";
     document.getElementById("asn").textContent = data.asn || "-";
 
@@ -203,6 +204,19 @@ function formatCurrency(data) {
         return `${data.currency} (${data.currency_code})`;
     }
     return data.currency || "-";
+}
+
+function formatCurrencyRates(data) {
+    if (data.currency_rates) {
+        const rates = data.currency_rates;
+        const rateEntries = Object.entries(rates).slice(0, 3);
+        if (rateEntries.length > 0) {
+            return rateEntries
+                .map(([code, rate]) => `${code}: ${rate}`)
+                .join(", ");
+        }
+    }
+    return "-";
 }
 
 function updateMap(lat, lng, data) {
