@@ -207,14 +207,8 @@ function formatCurrency(data) {
 }
 
 function formatCurrencyRates(data) {
-    if (data.currency_rates) {
-        const rates = data.currency_rates;
-        const rateEntries = Object.entries(rates).slice(0, 3);
-        if (rateEntries.length > 0) {
-            return rateEntries
-                .map(([code, rate]) => `${code}: ${rate}`)
-                .join(", ");
-        }
+    if (data.currency_rates && data.currency_code) {
+        return `1 USD = ${data.currency_rates} ${data.currency_code}`;
     }
     return "-";
 }
