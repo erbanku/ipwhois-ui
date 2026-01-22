@@ -215,6 +215,9 @@ header h1 {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
     margin-bottom: 40px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .info-card {
@@ -269,6 +272,9 @@ header h1 {
     grid-template-columns: 1fr 1.3fr;
     gap: 16px;
     margin-bottom: 40px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Detailed information section (left side on desktop) */
@@ -361,7 +367,9 @@ header h1 {
     border: 0.5px solid var(--border-color);
     border-radius: var(--radius-lg);
     padding: 24px;
-    margin: 0 60px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
     box-shadow: none;
 }
 
