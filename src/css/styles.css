@@ -122,6 +122,16 @@ header h1 {
     text-align: center;
 }
 
+.logo-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.logo-link:hover {
+    color: var(--primary-color);
+}
+
 .subtitle {
     font-size: 0.9375rem;
     color: var(--text-secondary);
