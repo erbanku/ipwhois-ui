@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Whois Lookup</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 IP Whois Lookup</h1>
+            <p class="subtitle">Visualize IP and hostname information with ipwhois.io</p>
+        </header>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="ipInput" 
+                    placeholder="Enter IP address or hostname (e.g., 8.8.8.8 or google.com)"
+                    autocomplete="off"
+                />
+                <button id="searchBtn" class="btn-primary">
+                    <span class="btn-text">Lookup</span>
+                    <span class="btn-loader" style="display: none;">⏳</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="results" class="results-container" style="display: none;">
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="card-icon">📍</div>
+                    <div class="card-content">
+                        <h3>Location</h3>
+                        <p id="location" class="card-value">-</p>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">🌍</div>
+                    <div class="card-content">
+                        <h3>IP Address</h3>
+                        <p id="ipAddress" class="card-value">-</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🏢</div>
+                    <div class="card-content">
+                        <h3>ISP</h3>
+                        <p id="isp" class="card-value">-</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-icon">🏛️</div>
+                    <div class="card-content">
+                        <h3>Organization</h3>
+                        <p id="org" class="card-value">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="details-section map-section">
+                    <h3>📍 Map Location</h3>
+                    <div id="map" class="map-container"></div>
+                </div>
+
+                <div class="details-section">
+                    <h3>🔍 Detailed Information</h3>
+                    <div class="details-table">
+                        <div class="detail-row">
+                            <span class="detail-label">Country:</span>
+                            <span id="country" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Region:</span>
+                            <span id="region" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">City:</span>
+                            <span id="city" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Postal Code:</span>
+                            <span id="postal" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Timezone:</span>
+                            <span id="timezone" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Currency:</span>
+                            <span id="currency" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Continent:</span>
+                            <span id="continent" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">ASN:</span>
+                            <span id="asn" class="detail-value">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="raw-data-section">
+                <div class="section-header">
+                    <h3>📄 Raw JSON Response</h3>
+                    <button id="copyBtn" class="btn-copy">Copy JSON</button>
+                </div>
+                <pre id="rawData" class="raw-data"></pre>
+            </div>
+        </div>
+
+        <div id="error" class="error-message" style="display: none;"></div>
+        <div id="loading" class="loading-message" style="display: none;">
+            <div class="loader"></div>
+            <p>Fetching IP information...</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Powered by <a href="https://ipwhois.io" target="_blank">ipwhois.io</a> API</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
