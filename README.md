@@ -2,8 +2,6 @@
 
 A clean, modern web interface for visualizing IP and hostname information using the [ipwhois.io API](https://ipwhois.io).
 
-🌐 **Live Demo**: [ip.erbanku.com](https://ip.erbanku.com)
-
 ## Features
 
 - 🔍 **IP Lookup**: Search for any IP address or hostname
@@ -59,29 +57,56 @@ You can directly link to specific IPs or hostnames:
 - `?q=1.1.1.1` - Alternative query parameter
 
 Examples:
+
 - `https://yourdomain.com/?ip=8.8.8.8`
 - `https://yourdomain.com/?host=github.com`
 
 ### API Key Configuration (Optional)
 
-For higher rate limits, you can add your ipwhois.io API key:
+For higher rate limits, you can configure your ipwhois.io API key in multiple ways:
+
+#### Option 1: Using config.js (Recommended for Development)
 
 1. Copy the example config file:
-   ```bash
-   cp config.example.js config.js
-   ```
+
+    ```bash
+    cp config.example.js config.js
+    ```
 
 2. Edit `config.js` and add your API key:
-   ```javascript
-   const CONFIG = {
-       apiKey: 'your-api-key-here',
-       apiEndpoint: 'https://ipwhois.app/json/'
-   };
-   ```
 
-3. Get your API key from [ipwhois.io pricing page](https://ipwhois.io/pricing)
+    ```javascript
+    window.IPWHOIS_CONFIG = {
+        apiKey: "your-api-key-here",
+        apiEndpoint: "https://ipwhois.app/json/",
+    };
+    ```
 
-**Note**: The `config.js` file is ignored by git to keep your API key private.
+#### Option 2: Using Environment Variables (Production)
+
+For production deployments, use environment variables:
+
+1. Copy the example environment file:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+2. Edit `.env` and add your configuration:
+
+    ```bash
+    IPWHOIS_API_KEY=your-api-key-here
+    IPWHOIS_API_ENDPOINT=https://ipwhois.app/json/
+    ```
+
+3. The application will automatically read from:
+    - `window.IPWHOIS_CONFIG` (highest priority)
+    - `process.env.IPWHOIS_API_KEY` (for Node.js environments)
+    - Default values (free tier)
+
+**Note**: Get your API key from [ipwhois.io pricing page](https://ipwhois.io/pricing)
+
+**Security**: Both `config.js` and `.env` files are ignored by git to keep your API key private.
 
 ## Technology Stack
 
@@ -116,6 +141,7 @@ This project uses the [ipwhois.io API](https://ipwhois.io/documentation).
 4. Deploy!
 
 For API key configuration with environment variables:
+
 - Add `IPWHOIS_API_KEY` as an environment variable in Netlify
 - Create a `netlify.toml` file to inject it into the build
 
@@ -155,4 +181,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 For API-related issues, please contact [ipwhois.io support](https://ipwhois.io/contact).
 
 For website issues, please open an issue on GitHub.
-

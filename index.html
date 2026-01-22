@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Whois Lookup</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Roboto+Mono:wght@400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1>IP Whois Lookup</h1>
-            <p class="subtitle">Visualize IP and hostname information with ipwhois.io</p>
+            <div class="header-content">
+                <h1>IP WHOIS Lookup</h1>
+                <p class="subtitle">Professional IP address and hostname information service</p>
+            </div>
         </header>
 
         <div class="search-section">
             <div class="search-box">
-                <input 
-                    type="text" 
-                    id="ipInput" 
-                    placeholder="Enter IP address or hostname (e.g., 8.8.8.8 or google.com)"
-                    autocomplete="off"
-                />
+                <input type="text" id="ipInput" placeholder="Enter IP address or hostname (e.g., 8.8.8.8 or google.com)"
+                    autocomplete="off" />
                 <button id="searchBtn" class="btn-primary">
                     <span class="btn-text">Lookup</span>
                     <span class="btn-loader" style="display: none;">⏳</span>
@@ -35,44 +36,35 @@
         <div id="results" class="results-container" style="display: none;">
             <div class="info-cards">
                 <div class="info-card">
-                    <div class="card-icon">📍</div>
-                    <div class="card-content">
-                        <h3>Location</h3>
-                        <p id="location" class="card-value">-</p>
+                    <div class="card-header">
+                        <span class="card-label">Location</span>
                     </div>
-                </div>
-                
-                <div class="info-card">
-                    <div class="card-icon">🌐</div>
-                    <div class="card-content">
-                        <h3>IP Address</h3>
-                        <p id="ipAddress" class="card-value">-</p>
-                    </div>
+                    <p id="location" class="card-value">-</p>
                 </div>
 
                 <div class="info-card">
-                    <div class="card-icon">🏢</div>
-                    <div class="card-content">
-                        <h3>ISP</h3>
-                        <p id="isp" class="card-value">-</p>
+                    <div class="card-header">
+                        <span class="card-label">IP Address</span>
                     </div>
+                    <p id="ipAddress" class="card-value">-</p>
                 </div>
 
                 <div class="info-card">
-                    <div class="card-icon">🏛️</div>
-                    <div class="card-content">
-                        <h3>Organization</h3>
-                        <p id="org" class="card-value">-</p>
+                    <div class="card-header">
+                        <span class="card-label">ISP</span>
                     </div>
+                    <p id="isp" class="card-value">-</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-header">
+                        <span class="card-label">Organization</span>
+                    </div>
+                    <p id="org" class="card-value">-</p>
                 </div>
             </div>
 
             <div class="details-grid">
-                <div class="details-section map-section">
-                    <h3>Map Location</h3>
-                    <div id="map" class="map-container"></div>
-                </div>
-
                 <div class="details-section">
                     <h3>Detailed Information</h3>
                     <div class="details-table">
@@ -110,6 +102,11 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="details-section map-section">
+                    <h3>Map Location</h3>
+                    <div id="map" class="map-container"></div>
+                </div>
             </div>
 
             <div class="raw-data-section">
@@ -136,4 +133,5 @@
     <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
