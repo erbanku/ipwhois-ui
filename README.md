@@ -1,6 +1,6 @@
 # IP WHOIS Lookup
 
-> A clean, modern web interface for IP and hostname geolocation powered by [IPWHOIS.IO](https://ipwhois.io)
+> A clean, modern web interface for IP and hostname geolocation powered by [ipwho.is](https://ipwho.is)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![No Build Tools](https://img.shields.io/badge/build-none-green.svg)](/)
@@ -98,7 +98,7 @@ Link directly to specific lookups using URL parameters:
 
 ### API Key Setup (Optional)
 
-The app works without an API key (10k requests/month free tier). For higher limits:
+The app works without an API key (ipwho.is is completely free and requires no registration). For custom endpoints that require a key:
 
 **Method 1: Local Config File** (Recommended for Development)
 
@@ -109,7 +109,7 @@ cp src/config.example.js src/config.js
 # Edit src/config.js
 window.IPWHOIS_CONFIG = {
     apiKey: "your-api-key-here",
-    apiEndpoint: "https://ipwhois.app/json/"
+    apiEndpoint: "https://ipwho.is/"
 };
 ```
 
@@ -121,7 +121,7 @@ cp .env.example .env
 
 # Add your key
 IPWHOIS_API_KEY=your-api-key-here
-IPWHOIS_API_ENDPOINT=https://ipwhois.app/json/
+IPWHOIS_API_ENDPOINT=https://ipwho.is/
 ```
 
 **Configuration Priority:**
@@ -130,7 +130,7 @@ IPWHOIS_API_ENDPOINT=https://ipwhois.app/json/
 2. `process.env.*` variables
 3. Default free tier
 
-Get your API key: [ipwhois.io/pricing](https://ipwhois.io/pricing)
+Get your API key: [ipwho.is](https://ipwho.is)
 
 > Both `src/config.js` and `.env` are gitignored for security.
 
@@ -143,7 +143,7 @@ Get your API key: [ipwhois.io/pricing](https://ipwhois.io/pricing)
 | **Vanilla JavaScript** | ES6+ with no frameworks         |
 | **Leaflet.js**         | Interactive maps                |
 | **OpenStreetMap**      | Map tiles                       |
-| **IPWHOIS.IO API**     | IP geolocation data             |
+| **ipwho.is API**       | IP geolocation data             |
 
 **Why No Frameworks?**
 
@@ -181,14 +181,13 @@ Add environment variable in dashboard: `IPWHOIS_API_KEY`
 
 ## API Information
 
-**Provider:** [IPWHOIS.IO](https://ipwhois.io/documentation)
+**Provider:** [ipwho.is](https://ipwho.is)
 
 | Detail            | Value                                                        |
 | ----------------- | ------------------------------------------------------------ |
-| **Free Tier**     | 10,000 requests/month                                        |
-| **Endpoint**      | `https://ipwhois.app/json/{ip}`                              |
-| **Documentation** | [ipwhois.io/documentation](https://ipwhois.io/documentation) |
-| **Pricing**       | [ipwhois.io/pricing](https://ipwhois.io/pricing)             |
+| **Free Tier**     | Free, no API key required, no registration needed            |
+| **Endpoint**      | `https://ipwho.is/{ip}`                                      |
+| **Documentation** | [ipwho.is](https://ipwho.is)                                 |
 
 ## Browser Support
 
@@ -222,7 +221,7 @@ Contributions welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-- API Issues: [ipwhois.io/contact](https://ipwhois.io/contact)
+- API Issues: [ipwho.is](https://ipwho.is)
 - App Issues: [GitHub Issues](../../issues)
 
 ---

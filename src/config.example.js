@@ -2,12 +2,11 @@
 // Copy this file to config.js and add your API key if needed
 
 const CONFIG = {
-    // Optional: Add your ipwhois.io API key here for higher rate limits
-    // Get your API key from: https://ipwhois.io/pricing
+    // Optional: Add your API key here for higher rate limits
     apiKey: '',
     
     // API endpoint (should not need to change)
-    apiEndpoint: 'https://ipwhois.app/json/'
+    apiEndpoint: 'https://ipwho.is/'
 };
 
 // Make config available globally
