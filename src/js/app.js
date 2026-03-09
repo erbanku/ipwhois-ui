@@ -8,7 +8,7 @@ const CONFIG = {
     apiEndpoint:
         window.IPWHOIS_CONFIG?.apiEndpoint ||
         (typeof process !== "undefined" && process.env?.IPWHOIS_API_ENDPOINT) ||
-        "https://ipwhois.app/json/",
+        "https://ipwho.is/",
 };
 
 // Log config status (without exposing API key)
@@ -124,8 +124,8 @@ function displayResults(data) {
     // Update info cards
     document.getElementById("ipAddress").textContent = data.ip || "-";
     document.getElementById("location").textContent = formatLocation(data);
-    document.getElementById("isp").textContent = data.isp || "-";
-    document.getElementById("org").textContent = data.org || "-";
+    document.getElementById("isp").textContent = data.connection?.isp || "-";
+    document.getElementById("org").textContent = data.connection?.org || "-";
 
     // Update flag separately for location card
     const locationCard = document.querySelector(".info-card:first-child");
@@ -152,7 +152,7 @@ function displayResults(data) {
     document.getElementById("currencyRates").textContent =
         formatCurrencyRates(data);
     document.getElementById("continent").textContent = data.continent || "-";
-    document.getElementById("asn").textContent = data.asn || "-";
+    document.getElementById("asn").textContent = formatAsn(data);
 
     // Update raw JSON
     document.getElementById("rawData").textContent = JSON.stringify(
@@ -193,24 +193,35 @@ function formatCountry(data) {
 }
 
 function formatTimezone(data) {
-    if (data.timezone && data.timezone_gmt) {
-        return `${data.timezone} (GMT${data.timezone_gmt})`;
+    const tz = data.timezone?.id;
+    const gmt = data.timezone?.utc;
+    if (tz && gmt) {
+        return `${tz} (GMT${gmt})`;
     }
-    return data.timezone || "-";
+    return tz || "-";
 }
 
 function formatCurrency(data) {
-    if (data.currency && data.currency_code) {
-        return `${data.currency} (${data.currency_code})`;
+    const name = data.currency?.name;
+    const code = data.currency?.code;
+    if (name && code) {
+        return `${name} (${code})`;
     }
-    return data.currency || "-";
+    return name || "-";
 }
 
 function formatCurrencyRates(data) {
-    if (data.currency_rates && data.currency_code) {
-        return `1 USD = ${data.currency_rates} ${data.currency_code}`;
+    const rate = data.currency?.exchange_rate;
+    const code = data.currency?.code;
+    if (rate && code) {
+        return `1 USD = ${rate} ${code}`;
     }
     return "-";
+}
+
+function formatAsn(data) {
+    const asn = data.connection?.asn;
+    return asn ? `AS${asn}` : "-";
 }
 
 function updateMap(lat, lng, data) {
