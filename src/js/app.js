@@ -8,7 +8,7 @@ const CONFIG = {
     apiEndpoint:
         window.IPWHOIS_CONFIG?.apiEndpoint ||
         (typeof process !== "undefined" && process.env?.IPWHOIS_API_ENDPOINT) ||
-        "https://ipwho.is/",
+        "https://ipapi.co/",
 };
 
 // Log config status (without exposing API key)
@@ -90,10 +90,12 @@ async function lookupIP(ip) {
         hideError();
         hideResults();
 
-        // Build API URL
+        // Build API URL: https://ipapi.co/{ip}/json/ or https://ipapi.co/json/
         let apiUrl = CONFIG.apiEndpoint;
         if (ip) {
-            apiUrl += ip;
+            apiUrl += `${ip}/json/`;
+        } else {
+            apiUrl += "json/";
         }
         if (CONFIG.apiKey) {
             apiUrl += `?key=${CONFIG.apiKey}`;
@@ -107,8 +109,8 @@ async function lookupIP(ip) {
 
         const data = await response.json();
 
-        if (data.success === false) {
-            throw new Error(data.message || "Failed to fetch IP information");
+        if (data.error) {
+            throw new Error(data.reason || "Failed to fetch IP information");
         }
 
         displayResults(data);
@@ -124,21 +126,21 @@ function displayResults(data) {
     // Update info cards
     document.getElementById("ipAddress").textContent = data.ip || "-";
     document.getElementById("location").textContent = formatLocation(data);
-    document.getElementById("isp").textContent = data.connection?.isp || "-";
-    document.getElementById("org").textContent = data.connection?.org || "-";
+    document.getElementById("isp").textContent = data.org || "-";
+    document.getElementById("org").textContent = data.org || "-";
 
     // Update flag separately for location card
     const locationCard = document.querySelector(".info-card:first-child");
     let flagImg = locationCard.querySelector(".card-flag");
-    if (data.country_code) {
-        const flagUrl = `https://cdn.ipwhois.io/flags/${data.country_code.toLowerCase()}.svg`;
+    if (data.country) {
+        const flagUrl = `https://cdn.ipwhois.io/flags/${data.country.toLowerCase()}.svg`;
         if (!flagImg) {
             flagImg = document.createElement("img");
             flagImg.className = "card-flag";
             locationCard.querySelector(".card-header").appendChild(flagImg);
         }
         flagImg.src = flagUrl;
-        flagImg.alt = data.country || "";
+        flagImg.alt = data.country_name || "";
     } else if (flagImg) {
         flagImg.remove();
     }
@@ -151,7 +153,7 @@ function displayResults(data) {
     document.getElementById("currency").textContent = formatCurrency(data);
     document.getElementById("currencyRates").textContent =
         formatCurrencyRates(data);
-    document.getElementById("continent").textContent = data.continent || "-";
+    document.getElementById("continent").textContent = formatContinent(data);
     document.getElementById("asn").textContent = formatAsn(data);
 
     // Update raw JSON
@@ -180,48 +182,60 @@ function formatLocation(data) {
     if (data.city) parts.push(data.city);
     // Only add region if it's different from city
     if (data.region && data.region !== data.city) parts.push(data.region);
-    // Add country without flag
-    if (data.country) {
-        parts.push(data.country);
+    // Add country name
+    if (data.country_name) {
+        parts.push(data.country_name);
     }
     return parts.length > 0 ? parts.join(", ") : "-";
 }
 
 function formatCountry(data) {
     // Return country name only, flag will be displayed separately
-    return data.country || "-";
+    return data.country_name || "-";
 }
 
 function formatTimezone(data) {
-    const tz = data.timezone?.id;
-    const gmt = data.timezone?.utc;
-    if (tz && gmt) {
-        return `${tz} (GMT${gmt})`;
+    const tz = data.timezone;
+    const utc = data.utc_offset;
+    if (tz && utc) {
+        // Format utc_offset "+HHMM" → "+HH:MM" (already-formatted strings pass through unchanged)
+        const formatted = /^[+-]\d{4}$/.test(utc)
+            ? `${utc.slice(0, 3)}:${utc.slice(3)}`
+            : utc;
+        return `${tz} (GMT${formatted})`;
     }
     return tz || "-";
 }
 
 function formatCurrency(data) {
-    const name = data.currency?.name;
-    const code = data.currency?.code;
+    const name = data.currency_name;
+    const code = data.currency;
     if (name && code) {
         return `${name} (${code})`;
     }
-    return name || "-";
+    return name || code || "-";
 }
 
 function formatCurrencyRates(data) {
-    const rate = data.currency?.exchange_rate;
-    const code = data.currency?.code;
-    if (rate && code) {
-        return `1 USD = ${rate} ${code}`;
-    }
     return "-";
 }
 
+const CONTINENT_NAMES = {
+    AF: "Africa",
+    AN: "Antarctica",
+    AS: "Asia",
+    EU: "Europe",
+    NA: "North America",
+    OC: "Oceania",
+    SA: "South America",
+};
+
+function formatContinent(data) {
+    return CONTINENT_NAMES[data.continent_code] || data.continent_code || "-";
+}
+
 function formatAsn(data) {
-    const asn = data.connection?.asn;
-    return asn ? `AS${asn}` : "-";
+    return data.asn || "-";
 }
 
 function updateMap(lat, lng, data) {
@@ -258,7 +272,7 @@ function updateMap(lat, lng, data) {
     const popupContent = `
         <div style="min-width: 200px; padding: 4px;">
             <div style="font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--text-primary);">${data.ip}</div>
-            <div style="font-size: 0.9375rem; margin-bottom: 4px; color: var(--text-primary);">${data.city ? data.city + ", " : ""}${data.country || ""}</div>
+            <div style="font-size: 0.9375rem; margin-bottom: 4px; color: var(--text-primary);">${data.city ? data.city + ", " : ""}${data.country_name || ""}</div>
             <div style="font-size: 0.8125rem; color: var(--text-secondary);">Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}</div>
         </div>
     `;
