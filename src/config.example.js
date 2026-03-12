@@ -6,7 +6,7 @@ const CONFIG = {
     apiKey: '',
     
     // API endpoint (should not need to change)
-    apiEndpoint: 'https://ipwhois.app/json/'
+    apiEndpoint: 'https://ipapi.co/'
 };
 
 // Make config available globally
