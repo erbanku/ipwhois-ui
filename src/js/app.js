@@ -8,7 +8,7 @@ const CONFIG = {
     apiEndpoint:
         window.IPWHOIS_CONFIG?.apiEndpoint ||
         (typeof process !== "undefined" && process.env?.IPWHOIS_API_ENDPOINT) ||
-        "https://ipwho.is/",
+        "https://ipwhois.app/json/",
 };
 
 // Log config status (without exposing API key)
@@ -124,8 +124,8 @@ function displayResults(data) {
     // Update info cards
     document.getElementById("ipAddress").textContent = data.ip || "-";
     document.getElementById("location").textContent = formatLocation(data);
-    document.getElementById("isp").textContent = data.connection?.isp || "-";
-    document.getElementById("org").textContent = data.connection?.org || "-";
+    document.getElementById("isp").textContent = data.isp || "-";
+    document.getElementById("org").textContent = data.org || "-";
 
     // Update flag separately for location card
     const locationCard = document.querySelector(".info-card:first-child");
@@ -220,8 +220,7 @@ function formatCurrencyRates(data) {
 }
 
 function formatAsn(data) {
-    const asn = data.connection?.asn;
-    return asn ? `AS${asn}` : "-";
+    return data.asn || "-";
 }
 
 function updateMap(lat, lng, data) {
