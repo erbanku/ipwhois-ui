@@ -122,7 +122,7 @@ async function lookupIP(ip) {
     }
 }
 
-function displayResults(data) {
+async function displayResults(data) {
     // Update info cards
     document.getElementById("ipAddress").textContent = data.ip || "-";
     document.getElementById("location").textContent = formatLocation(data);
@@ -151,8 +151,10 @@ function displayResults(data) {
     document.getElementById("city").textContent = data.city || "-";
     document.getElementById("timezone").textContent = formatTimezone(data);
     document.getElementById("currency").textContent = formatCurrency(data);
-    document.getElementById("currencyRates").textContent =
-        formatCurrencyRates(data);
+
+    // Set currency rates to loading state initially
+    document.getElementById("currencyRates").textContent = "Loading...";
+
     document.getElementById("continent").textContent = formatContinent(data);
     document.getElementById("asn").textContent = formatAsn(data);
 
@@ -175,6 +177,10 @@ function displayResults(data) {
     }
 
     showResults();
+
+    // Fetch currency rates asynchronously
+    const rates = await formatCurrencyRates(data);
+    document.getElementById("currencyRates").textContent = rates;
 }
 
 function formatLocation(data) {
@@ -216,7 +222,40 @@ function formatCurrency(data) {
     return name || code || "-";
 }
 
-function formatCurrencyRates(data) {
+async function formatCurrencyRates(data) {
+    const currencyCode = data.currency;
+    if (!currencyCode) {
+        return "-";
+    }
+
+    try {
+        // Use exchangerate-api.com free tier (no API key needed)
+        const response = await fetch(
+            `https://api.exchangerate-api.com/v4/latest/${currencyCode}`,
+        );
+        if (!response.ok) {
+            return "-";
+        }
+
+        const rateData = await response.json();
+        if (rateData && rateData.rates) {
+            // Show rates for major currencies: USD, CNY
+            const majorRates = [];
+            const currencies = ["USD", "CNY"];
+
+            for (const cur of currencies) {
+                if (cur !== currencyCode && rateData.rates[cur]) {
+                    const rate = rateData.rates[cur];
+                    majorRates.push(`${cur}: ${rate.toFixed(4)}`);
+                }
+            }
+
+            return majorRates.length > 0 ? majorRates.join(" | ") : "-";
+        }
+    } catch (error) {
+        console.error("Failed to fetch currency rates:", error);
+    }
+
     return "-";
 }
 

@@ -552,6 +552,67 @@ footer a:hover {
 }
 
 /* Responsive Design */
+
+/* Tablet/iPad Pro (portrait and landscape) */
+@media (max-width: 1366px) and (min-width: 769px) {
+    .container {
+        padding: 0 40px;
+    }
+
+    header {
+        margin-left: -40px;
+        margin-right: -40px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .search-section {
+        padding: 0 40px;
+    }
+
+    .results-container {
+        padding: 0 40px;
+    }
+
+    .info-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Show details first, then map on tablet */
+    .details-grid > .details-section:first-child {
+        order: 1;
+    }
+
+    .details-grid > .map-section {
+        order: 2;
+    }
+
+    .map-container {
+        min-height: 400px;
+    }
+
+    .detail-value {
+        font-size: 1.125rem;
+    }
+
+    .card-value {
+        font-size: 0.9375rem;
+    }
+
+    .error-message,
+    .loading-message {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+}
+
+/* Mobile devices */
 @media (max-width: 768px) {
     body {
         padding: 0;
@@ -562,20 +623,24 @@ footer a:hover {
     }
 
     header {
-        padding: 32px 0;
+        padding: 24px 0;
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     header h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     .subtitle {
-        font-size: 1rem;
+        font-size: 0.875rem;
     }
 
     .search-section {
-        padding: 0 20px;
-        margin-bottom: 40px;
+        padding: 0;
+        margin-bottom: 32px;
     }
 
     .search-box {
@@ -583,19 +648,36 @@ footer a:hover {
         gap: 12px;
     }
 
+    #ipInput {
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+
     .btn-primary {
         width: 100%;
-        padding: 14px;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .results-container {
+        padding: 0;
     }
 
     .info-cards {
         grid-template-columns: 1fr;
         gap: 12px;
+        margin-bottom: 32px;
+    }
+
+    .info-card {
+        padding: 20px;
+        min-height: 100px;
     }
 
     .details-grid {
         grid-template-columns: 1fr;
         gap: 12px;
+        margin-bottom: 32px;
     }
 
     /* Show details first, then map on mobile */
@@ -612,28 +694,32 @@ footer a:hover {
     }
 
     .map-container {
-        height: 240px;
+        min-height: 280px;
+        height: auto;
     }
 
     .detail-row {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
-        padding: 16px 0;
+        padding: 14px 0;
     }
 
     .detail-label {
         font-size: 0.8125rem;
+        font-weight: 600;
     }
 
     .detail-value {
-        font-size: 0.875rem;
+        font-size: 1rem;
+        font-weight: 600;
         text-align: left;
         max-width: 100%;
     }
 
     .card-value {
-        font-size: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
     }
 
     .section-header {
@@ -642,25 +728,82 @@ footer a:hover {
         gap: 12px;
     }
 
-    .btn-copy {
-        width: 100%;
+    .section-header h3 {
+        font-size: 0.875rem;
     }
 
-    .results-container,
-    .raw-data-section,
+    .btn-copy {
+        width: 100%;
+        font-size: 0.8125rem;
+    }
+
+    .raw-data-section {
+        padding: 20px;
+        margin-bottom: 32px;
+    }
+
+    .raw-data {
+        font-size: 12px;
+        padding: 16px;
+        max-height: 400px;
+    }
+
     .error-message,
     .loading-message {
-        padding: 0 20px;
-        margin-left: 20px;
-        margin-right: 20px;
+        padding: 16px 20px;
+        margin: 20px 0;
+        font-size: 0.875rem;
     }
 
     .details-section {
         padding: 20px;
     }
 
+    .details-section h3 {
+        font-size: 0.875rem;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+    }
+
     footer {
-        margin-top: 48px;
+        margin-top: 40px;
+        padding: 16px 20px;
+        font-size: 0.875rem;
+    }
+
+    .footer-copyright {
+        font-size: 0.8125rem;
+    }
+}
+
+/* Very small mobile devices */
+@media (max-width: 375px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.8125rem;
+    }
+
+    .info-card {
+        padding: 16px;
+    }
+
+    .card-value {
+        font-size: 0.8125rem;
+    }
+
+    .detail-value {
+        font-size: 0.9375rem;
+    }
+
+    .details-section {
+        padding: 16px;
+    }
+
+    .raw-data {
+        font-size: 11px;
     }
 }
 
