@@ -239,9 +239,9 @@ async function formatCurrencyRates(data) {
 
         const rateData = await response.json();
         if (rateData && rateData.rates) {
-            // Show rates for major currencies: USD, EUR, GBP
+            // Show rates for major currencies: USD, CNY
             const majorRates = [];
-            const currencies = ["USD", "EUR", "GBP"];
+            const currencies = ["USD", "CNY"];
 
             for (const cur of currencies) {
                 if (cur !== currencyCode && rateData.rates[cur]) {
